@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Seekr · OSINT Sandbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&display=swap">
+<style>
+.sbx{background:#1b1f24;color:#e8ebee;font:600 11px/1.4 system-ui,sans-serif;letter-spacing:.06em;
+text-transform:uppercase;padding:6px 16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.sbx a{color:#9fd3ff;text-decoration:none}
+
+:root{--bg:#f7f8fb;--fg:#1d2230;--muted:#667085;--accent:#3949ab;--line:#dde1ea;--card:#fff}
+body{background:var(--bg);color:var(--fg);font:16px/1.5 Figtree,system-ui,sans-serif;margin:0}
+main{max-width:720px;margin:0 auto;padding:48px 16px}
+.logo{font-weight:800;font-size:56px;letter-spacing:-.04em;color:var(--accent);text-align:center;margin:24px 0 4px}
+.logo span{color:#f4511e}
+.tag{text-align:center;color:var(--muted);margin:0 0 28px}
+form{display:flex;gap:8px}
+input{flex:1;min-width:0;font:inherit;padding:12px 16px;border:1px solid var(--line);border-radius:24px;background:var(--card)}
+input:focus{outline:2px solid var(--accent);outline-offset:1px}
+button{font:600 15px Figtree,sans-serif;padding:0 20px;border:0;border-radius:24px;background:var(--accent);color:#fff;cursor:pointer}
+.count{color:var(--muted);font-size:14px;margin:24px 0 8px}
+.r{padding:14px 0;border-bottom:1px solid var(--line)}
+.r .u{font-size:13px;color:#188038;word-break:break-all}
+.r a{font-size:19px;color:var(--accent);text-decoration:none}
+.r a:hover{text-decoration:underline}
+.r p{margin:4px 0 0;color:#3c4254;font-size:15px}
+mark{background:#fff3b0;color:inherit}
+.dir{margin-top:48px;font-size:14px;color:var(--muted)}
+.dir a{color:var(--accent)}
+</style></head>
+<body>
+<div class="sbx"><span>OSINT Sandbox · training environment · all people and platforms are fictional</span><a href="index.html">Seekr search</a></div>
+<main>
+<div class="logo">seek<span>r</span></div><p class="tag">Search the sandbox web</p>
+<form id="f"><input id="q" name="q" aria-label="Search" placeholder="Search for a name, username, place…" autocomplete="off"><button>Search</button></form>
+<div id="count" class="count" hidden></div><div id="res"></div>
+<div class="dir"><b>Sites in this sandbox:</b> <a href="quillpad/spokes-and-semicolons/index.html">Quillpad</a> (blogs) · <a href="chirpr/index.html">Chirpr</a> (microblog) · <a href="codecircle/index.html">CodeCircle</a> (forum) · The Lakehead Ledger (news archive).
+Some people in the sandbox also link to real GitHub pages set up for this exercise.</div>
+</main>
+<script src="assets/seekr-index.js"></script>
+<script>
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const flat=s=>norm(s).replace(/[^a-z0-9]/g,'');
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function search(q){
+  const terms=norm(q).split(/\s+/).filter(Boolean); if(!terms.length) return [];
+  return SEEKR_INDEX.map(p=>{const hay=norm(p.title+' '+p.text), hf=flat(p.title+' '+p.text);
+    let score=0; for(const t of terms){const tf=flat(t); if(!tf) continue;
+      if(hay.includes(t)) score+=3; else if(hf.includes(tf)) score+=2; else return null;
+      if(norm(p.title).includes(t)) score+=2;}
+    return {p,score}}).filter(Boolean).sort((a,b)=>b.score-a.score);
+}
+function snippet(text,terms){
+  const n=norm(text); let i=-1; for(const t of terms){i=n.indexOf(t); if(i>=0) break;}
+  const start=Math.max(0,i-60); let s=(start?'…':'')+text.slice(start,start+220)+'…'; s=esc(s);
+  for(const t of terms){ if(t.length<2) continue; s=s.replace(new RegExp('('+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'),'<mark>$1</mark>'); }
+  return s;
+}
+const f=document.getElementById('f'),q=document.getElementById('q'),res=document.getElementById('res'),count=document.getElementById('count');
+function run(){const v=q.value.trim(); const terms=norm(v).split(/\s+/).filter(Boolean); const r=search(v);
+  count.hidden=!v; count.textContent=r.length+' result'+(r.length===1?'':'s')+' for "'+v+'"';
+  res.innerHTML=r.map(({p})=>`<div class="r"><div class="u">${esc(p.site)} › ${esc(p.url)}</div><a href="${p.url}">${esc(p.title)}</a><p>${snippet(p.text,terms)}</p></div>`).join('');
+}
+f.addEventListener('submit',ev=>{ev.preventDefault();run();try{history.replaceState(null,'','#'+encodeURIComponent(q.value))}catch(e){}});
+if(location.hash.length>1){q.value=decodeURIComponent(location.hash.slice(1));run();}
+</script>
+</body></html>

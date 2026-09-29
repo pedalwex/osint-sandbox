@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Building TrailTimer, part 1 · Spokes &amp; Semicolons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Karla:wght@400;600&display=swap">
+<style>
+.sbx{background:#1b1f24;color:#e8ebee;font:600 11px/1.4 system-ui,sans-serif;letter-spacing:.06em;
+text-transform:uppercase;padding:6px 16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.sbx a{color:#9fd3ff;text-decoration:none}
+
+:root{--bg:#f3f5f1;--fg:#1f2a24;--muted:#5d6b62;--accent:#2f5d50;--line:#d5ddd6;--card:#fff}
+body{background:var(--bg);color:var(--fg);font:18px/1.65 Newsreader,Georgia,serif;margin:0}
+.qp{font:600 12px Karla,sans-serif;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--line);letter-spacing:.04em}
+.qp a{color:var(--muted)}
+header{max-width:680px;margin:0 auto;padding:40px 16px 8px}
+header h1{font-size:40px;line-height:1.1;margin:0;font-weight:600;letter-spacing:-.01em}
+header h1 a{color:var(--fg);text-decoration:none}
+header p{margin:6px 0 0;color:var(--muted);font-style:italic}
+nav{max-width:680px;margin:0 auto;padding:8px 16px 0;display:flex;gap:18px;font:600 14px Karla,sans-serif}
+nav a{color:var(--accent);text-decoration:none}
+main{max-width:680px;margin:0 auto;padding:16px 16px 64px}
+article{padding:20px 0;border-bottom:1px solid var(--line)}
+.date{font:600 13px Karla,sans-serif;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+h2{font-size:28px;line-height:1.2;margin:4px 0 8px;font-weight:600;text-wrap:balance}
+h2 a{color:var(--fg);text-decoration:none}
+a{color:var(--accent)}
+.comments{margin-top:36px;font:15px/1.5 Karla,sans-serif}
+.comments h3{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.c{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:10px 0}
+.c b{color:var(--accent)}
+.c small{color:var(--muted);margin-left:6px}
+figure{margin:24px 0}
+figure img{border-radius:4px;display:block;max-width:360px;width:100%}
+figcaption{font:13px Karla,sans-serif;color:var(--muted);margin-top:6px}
+</style></head>
+<body>
+<div class="sbx"><span>OSINT Sandbox · training environment · all people and platforms are fictional</span><a href="../../../index.html">Seekr search</a></div>
+<div class="qp"><a href="../../../quillpad/spokes-and-semicolons/index.html">Quillpad</a> · free blogs for everyone</div>
+<header><h1><a href="../../../quillpad/spokes-and-semicolons/index.html">Spokes & Semicolons</a></h1><p>Code, bikes, and a very clever dog. By Teo.</p></header>
+<nav><a href="../../../quillpad/spokes-and-semicolons/index.html">Posts</a><a href="../../../quillpad/spokes-and-semicolons/about.html">About</a></nav>
+<main><article><div class="date">30 July 2026</div><h2>Building TrailTimer, part 1</h2><p>I have been timing my rides with a mess of spreadsheets for two years, so I finally wrote a proper tool. TrailTimer is a small Flask app: you log a ride, it stores the start and end times, and it draws a chart of your times on each segment.</p>
+<p>The code is public on my GitHub: <a href="https://github.com/pedalwex/trailtimer">github.com/pedalwex/trailtimer</a>. It is rough, the SQL is embarrassing, and pull requests are welcome.</p>
+<p>Two lessons so far. First, store every timestamp in UTC and only convert to local time when you display it. My live site showed every ride six hours in the future until someone on CodeCircle pointed that out. Second, I made a rookie mistake with a config file along the way. I fixed it, and I will write about it in part 2 once I stop being embarrassed.</p></article>
+<section class="comments"><h3>1 comment</h3><div class="c"><b>jonah.rides</b><small>31 July 2026</small><div>Finally! Adding the Mesa trail segment tonight.</div></div></section></main>
+</body></html>

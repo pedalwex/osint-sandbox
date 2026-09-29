@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Chirpr · find people</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;800&display=swap">
+<style>
+.sbx{background:#1b1f24;color:#e8ebee;font:600 11px/1.4 system-ui,sans-serif;letter-spacing:.06em;
+text-transform:uppercase;padding:6px 16px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.sbx a{color:#9fd3ff;text-decoration:none}
+
+:root{--bg:#eef6f7;--fg:#10262b;--muted:#5c7479;--accent:#0e7c86;--line:#d3e3e6;--card:#fff}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 "Nunito Sans",system-ui,sans-serif;margin:0}
+.top{background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;align-items:center;gap:14px}
+.top a.brand{font-weight:800;font-size:22px;color:var(--accent);text-decoration:none;letter-spacing:-.02em}
+main{max-width:600px;margin:0 auto;padding:20px 16px 64px}
+.prof{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.av{width:84px;height:84px;border-radius:50%;background:#c9dde0;flex:none;object-fit:cover;display:grid;place-items:center;font-weight:800;font-size:30px;color:var(--accent)}
+.prof h1{margin:0;font-size:22px}
+.handle{color:var(--muted)}
+.meta{color:var(--muted);font-size:14px;margin-top:6px}
+.post{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px}
+.post time{display:block;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.post p{margin:4px 0 0}
+.tz{font-size:12px;color:var(--muted);margin-top:14px}
+a{color:var(--accent)}
+input{font:inherit;padding:10px 14px;border:1px solid var(--line);border-radius:20px;width:100%;box-sizing:border-box}
+.user{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;text-decoration:none;color:var(--fg)}
+.user .av{width:44px;height:44px;font-size:18px}
+</style></head>
+<body>
+<div class="sbx"><span>OSINT Sandbox · training environment · all people and platforms are fictional</span><a href="../index.html">Seekr search</a></div>
+<div class="top"><a class="brand" href="../chirpr/index.html">chirpr</a><span style="color:var(--muted)">say it short</span></div><main><h1 style="font-size:22px">Find people on Chirpr</h1>
+<input id="q" placeholder="Search by name or @handle" aria-label="Search users">
+<div id="list" hidden><a class="user" data-h="pedalwex teo" href="pedalwex.html"><img class="av" src="../assets/avatar_pedalwex.jpg" alt=""><div><b>Teo</b><div class="handle">@pedalwex</div></div></a><a class="user" data-h="pedal_wex toby w." href="pedal_wex.html"><div class="av">T</div><div><b>Toby W.</b><div class="handle">@pedal_wex</div></div></a></div><p id="none" style="color:var(--muted)">Type a name or handle to search.</p>
+<script>
+const q=document.getElementById('q'),list=document.getElementById('list'),none=document.getElementById('none');
+q.addEventListener('input',()=>{const v=q.value.toLowerCase().replace(/[^a-z0-9]/g,'');let n=0;
+for(const a of list.children){const h=a.dataset.h.replace(/[^a-z0-9 ]/g,'');const ok=v.length>1&&h.replace(/ /g,'').includes(v);a.hidden=!ok;n+=ok}
+list.hidden=!n;none.hidden=!!n;none.textContent=v.length>1?'No people found.':'Type a name or handle to search.'});
+</script></main>
+</body></html>
